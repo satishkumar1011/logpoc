@@ -12,8 +12,8 @@ public class LogdemoApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(LogdemoApplication.class, args);
-		log.debug("Debug message logged !!!");
-		log.info("Info message logged !!!");
+//		log.debug("Debug message logged !!!");
+//		log.info("Info message logged !!!");
 		log.error("Error message logged !!!", new RuntimeException("unknwon error"));
 	}
 
