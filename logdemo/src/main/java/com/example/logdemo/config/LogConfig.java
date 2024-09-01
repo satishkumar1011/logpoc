@@ -10,7 +10,7 @@ public class LogConfig {
 
     private static final Logger logger = LogManager.getLogger(LogConfig.class);
 
-    public void testCustomLog(){
+    public static void testCustomLog(){
         logger.info("info message from LogConfig !!!");
         logger.log(LogMessage.VERBOSE, "verbose level test !!!");
     }

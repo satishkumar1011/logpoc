@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
+<Configuration status="INFO" monitorInterval="30">
     <Properties>
         <Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>
         <Property name="APP_LOG_ROOT">c:/tempLogs</Property>
     </Properties>
+    <CustomLevels>
+        <CustomLevel name="VERBOSE" intLevel="550"/>
+    </CustomLevels>
     <Appenders>
-        <Console name="STDOUT" target="SYSTEM_OUT">
+        <Console name="STDOUT"  target="SYSTEM_OUT">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
         <RollingFile name="FileAppender" fileName="${APP_LOG_ROOT}/app.log"
                      filePattern="${APP_LOG_ROOT}/app-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Filters>
-                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
             </Filters>
             <Policies>
                 <SizeBasedTriggeringPolicy size="10MB"/>
@@ -24,8 +27,9 @@
                      filePattern="${APP_LOG_ROOT}/app-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Filters>
-                <ThresholdFilter level="VERBOSE" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="VERBOSE" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
             </Filters>
             <Policies>
                 <SizeBasedTriggeringPolicy size="10MB"/>
@@ -46,19 +50,21 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="com.example.logdemo.config" level="INFO" additivity="false">
+
+        <Logger name="com.example.logdemo" level="VERBOSE" additivity="false">
             <AppenderRef ref="FileAppenderVerbose"/>
+        </Logger>
+
+        <Logger name="com.example.logdemo" level="DEBUG" additivity="false">
+            <AppenderRef ref="FileAppender" level="INFO"/>
+            <AppenderRef ref="FileAppenderError" level="ERROR"/>
             <AppenderRef ref="STDOUT" />
         </Logger>
-        <Logger name="com.example.logdemo" level="DEBUG" additivity="false">
-            <AppenderRef ref="FileAppender"/>
-            <!--            <AppenderRef ref="STDOUT" />-->
-        </Logger>
-        <Root level="WARN">
+        <Root level="INFO">
             <AppenderRef ref="FileAppenderError" level="ERROR"/>
             <AppenderRef ref="FileAppender" level="INFO"/>
             <AppenderRef ref="FileAppenderVerbose" level="VERBOSE"/>
-            <AppenderRef ref="STDOUT" level="WARN"/>
+            <AppenderRef ref="STDOUT" />
 
         </Root>
     </Loggers>
